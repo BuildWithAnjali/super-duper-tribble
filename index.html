@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            animation: confetti-fall 3s linear infinite;
+            z-index: 1000;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-800 to-black flex items-center justify-center min-h-screen overflow-hidden">
+    <div class="text-center relative">
+        <input id="nameInput" 
+               type="text" 
+               placeholder="Enter your name" 
+               class="p-2 rounded-lg shadow-md mb-4 w-64 text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+        <button onclick="showMessage()" 
+                class="px-4 py-2 bg-white text-blue-600 font-bold rounded-lg shadow-lg hover:bg-blue-100 transition">
+            ENTER
+        </button>
+        <h1 id="message" class="mt-8 text-3xl  text-white"></h1>
+
+        <div id="confetti-container"></div>
+
+        <!-- Birthday Cake Image, initially hidden -->
+        <div id="cake-container" class="mt-8 hidden">
+            <img src="/images/happy-birthday-animated-cake-smiling-0vqz8kmpqfovdtka.gif" 
+                 alt="Birthday Cake" 
+                 class="w-60 mx-auto">
+        </div>
+
+        <!-- Birthday Sound -->
+        <audio id="birthdaySound" src="sounds/happy-birthday-to-you-bossa-nova-style-arrangement-21399.mp3" preload="auto"></audio>
+    </div>
+
+    <script>
+        function showMessage() {
+            const input = document.getElementById('nameInput').value.trim();
+            const message = document.getElementById('message');
+            const confettiContainer = document.getElementById('confetti-container');
+            const birthdaySound = document.getElementById('birthdaySound');
+            const cakeContainer = document.getElementById('cake-container');
+            confettiContainer.innerHTML = '';
+
+            if (input) {
+                message.textContent = `🎉 Happy Birthday ${input}! 🎉`;
+                birthdaySound.play();
+                cakeContainer.classList.remove('hidden');
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    confettiContainer.appendChild(confetti);
+                }
+            } else {
+                message.textContent = '';
+                cakeContainer.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                showMessage();
+            }
+        });
+    </script>
+</body>
+</html>
