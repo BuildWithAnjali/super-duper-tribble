@@ -73,6 +73,12 @@
             }
         }
 
+          window.onload = function() {
+            document.getElementById('nameInput').value = '';
+            document.getElementById('nameInput').setAttribute('autocomplete', 'off');
+        }
+
+
         document.getElementById('nameInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 showMessage();
